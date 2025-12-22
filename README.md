@@ -29,15 +29,37 @@ The component draws inspiration from these reference images:
 
 ## Installation
 
+This is now a complete React + TypeScript application using Vite.
+
 ```bash
-# Clone or copy the component into your React project
-cp retro-terminal.jsx src/components/
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
+
+The development server will start at `http://localhost:5173` (or another port if 5173 is busy).
 
 ## Usage
 
-```jsx
-import CRTTerminal from './components/retro-terminal';
+The application is ready to run out of the box. The main component is located at:
+
+```
+src/components/CRTTerminal.tsx
+src/components/CRTTerminal.css
+```
+
+To use in your own project, simply copy these files and import:
+
+```tsx
+import CRTTerminal from './components/CRTTerminal';
 
 function App() {
   return <CRTTerminal />;
@@ -47,9 +69,9 @@ function App() {
 ## Dependencies
 
 - React 18+
+- TypeScript 5+
+- Vite 5+ (build tool)
 - Google Fonts: VT323, Share Tech Mono (loaded via CSS import)
-
-No additional dependencies required — all effects are pure CSS.
 
 ## Customization
 
