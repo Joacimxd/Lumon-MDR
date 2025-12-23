@@ -41,6 +41,10 @@ A collection of React components that recreate the aesthetic of 1970s-80s retro-
 - **Grayish plastic housing** with realistic texture
 - **"THE COMPANY" branding** matching the retro-futuristic aesthetic
 
+## Design Moodboard
+
+![Moodboard](images/moodboard.png)
+
 ## Design References
 
 The components draw inspiration from these reference images:
