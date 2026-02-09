@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import './CRTTerminal.css';
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import "./CRTTerminal.css";
 
 interface MenuOption {
   id: string;
@@ -7,15 +7,22 @@ interface MenuOption {
 }
 
 interface CRTTerminalProps {
-  scale?: number; // Scale factor (e.g., 0.5 for 50%, 1 for 100%, 1.5 for 150%)
+  scale?: number;
 }
 
 const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
   const [bootSequence, setBootSequence] = useState<number>(0);
   const [showCursor, setShowCursor] = useState<boolean>(true);
   const [selectedOption, setSelectedOption] = useState<number>(0);
-  const [currentScreen, setCurrentScreen] = useState<'boot' | 'menu'>('boot');
+  const [currentScreen, setCurrentScreen] = useState<"boot" | "menu" | "files">(
+    "boot",
+  );
   const [glitchActive, setGlitchActive] = useState<boolean>(false);
+
+  const [selectedFileIndex, setSelectedFileIndex] = useState<number>(0);
+  const files = ["Le Mars", "Coleman", "Dyer", "Eagan", "Lumon"];
+
+  const lastScrollTime = useRef<number>(0);
 
   // Trigger a glitch effect
   const triggerGlitch = useCallback((duration: number = 50) => {
@@ -25,14 +32,17 @@ const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
 
   // Cursor blink effect
   useEffect(() => {
-    const interval = setInterval(() => setShowCursor(prev => !prev), 530);
+    const interval = setInterval(() => setShowCursor((prev) => !prev), 530);
     return () => clearInterval(interval);
   }, []);
 
   // Boot sequence animation
   useEffect(() => {
     if (bootSequence < 5) {
-      const timeout = setTimeout(() => setBootSequence(prev => prev + 1), 400);
+      const timeout = setTimeout(
+        () => setBootSequence((prev) => prev + 1),
+        400,
+      );
       return () => clearTimeout(timeout);
     }
   }, [bootSequence]);
@@ -48,10 +58,10 @@ const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
   }, [triggerGlitch]);
 
   const menuOptions: MenuOption[] = [
-    { id: 'status', label: 'SYSTEM STATUS' },
-    { id: 'files', label: 'ACCESS FILES' },
-    { id: 'comms', label: 'COMMUNICATIONS' },
-    { id: 'diagnostics', label: 'RUN DIAGNOSTICS' },
+    { id: "status", label: "SYSTEM STATUS" },
+    { id: "files", label: "ACCESS FILES" },
+    { id: "comms", label: "COMMUNICATIONS" },
+    { id: "diagnostics", label: "RUN DIAGNOSTICS" },
   ];
 
   const handleOptionHover = (index: number) => {
@@ -62,23 +72,46 @@ const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
 
   const handleOptionClick = (index: number) => {
     setSelectedOption(index);
+    if (index === 1) {
+      // ACCESS FILES
+      setCurrentScreen("files");
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (currentScreen === 'menu') {
-      if (e.key === 'ArrowUp') {
-        setSelectedOption(prev => (prev > 0 ? prev - 1 : menuOptions.length - 1));
-      } else if (e.key === 'ArrowDown') {
-        setSelectedOption(prev => (prev < menuOptions.length - 1 ? prev + 1 : 0));
-      } else if (e.key === 'Enter') {
-        // Enter key action
+    if (currentScreen === "menu") {
+      if (e.key === "ArrowUp") {
+        setSelectedOption((prev) =>
+          prev > 0 ? prev - 1 : menuOptions.length - 1,
+        );
+      } else if (e.key === "ArrowDown") {
+        setSelectedOption((prev) =>
+          prev < menuOptions.length - 1 ? prev + 1 : 0,
+        );
+      } else if (e.key === "Enter") {
+        if (selectedOption === 1) {
+          // ACCESS FILES
+          setCurrentScreen("files");
+        }
+      }
+    } else if (currentScreen === "files") {
+      if (e.key === "ArrowLeft") {
+        setSelectedFileIndex((prev) =>
+          prev > 0 ? prev - 1 : files.length - 1,
+        );
+      } else if (e.key === "ArrowRight") {
+        setSelectedFileIndex((prev) =>
+          prev < files.length - 1 ? prev + 1 : 0,
+        );
+      } else if (e.key === "Escape" || e.key === "Backspace") {
+        setCurrentScreen("menu");
       }
     }
   };
 
   useEffect(() => {
     if (bootSequence >= 5) {
-      const timeout = setTimeout(() => setCurrentScreen('menu'), 3000);
+      const timeout = setTimeout(() => setCurrentScreen("menu"), 3000);
       return () => clearTimeout(timeout);
     }
   }, [bootSequence]);
@@ -90,15 +123,17 @@ const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
       onKeyDown={handleKeyDown}
       style={{
         transform: `scale(${scale})`,
-        transformOrigin: 'center center',
+        transformOrigin: "center center",
       }}
     >
       <div className="crt-monitor">
         <div className="vent-slots">
-          {[...Array(8)].map((_, i) => <div key={i} className="vent-slot" />)}
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="vent-slot" />
+          ))}
         </div>
         <div className="crt-bezel">
-          <div className={`crt-screen ${glitchActive ? 'glitch-active' : ''}`}>
+          <div className={`crt-screen ${glitchActive ? "glitch-active" : ""}`}>
             <div className="reflection" />
             <div className="crt-glass" />
             <div className="crt-bulge" />
@@ -107,38 +142,28 @@ const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
             <div className="screen-warp">
               <div className="screen-inner">
                 <div className="screen-content flicker">
-                  {currentScreen === 'boot' && (
-                    <div className="amber-text">
+                  {currentScreen === "boot" && (
+                    <div className="boot-container amber-text">
                       {bootSequence >= 1 && (
-                        <div className="boot-line" style={{ animationDelay: '0ms' }}>
-                          NEXUS-7 SYSTEM BIOS v3.2.1
+                        <div
+                          className="boot-line"
+                          style={{ animationDelay: "0ms", fontSize: "24px" }}
+                        >
+                          Loading<span className="loading-dots"></span>
                         </div>
                       )}
                       {bootSequence >= 2 && (
-                        <div className="boot-line" style={{ animationDelay: '100ms' }}>
-                          (C) 2124 WEYLAND SYSTEMS CORP.
-                        </div>
-                      )}
-                      {bootSequence >= 3 && (
-                        <div className="boot-line dim-text" style={{ animationDelay: '200ms' }}>
-                          <br />MEMORY CHECK... 640K OK
-                        </div>
-                      )}
-                      {bootSequence >= 4 && (
-                        <div className="boot-line dim-text" style={{ animationDelay: '300ms' }}>
-                          INITIALIZING NEURAL INTERFACE...
-                        </div>
-                      )}
-                      {bootSequence >= 5 && (
-                        <div className="boot-line" style={{ animationDelay: '400ms' }}>
-                          <br />SYSTEM READY
-                          {showCursor && <span className="cursor" />}
+                        <div
+                          className="boot-line dim-text"
+                          style={{ animationDelay: "100ms", marginTop: "10px" }}
+                        >
+                          (C) 1856 LUMON INDUSTRIES CORP.
                         </div>
                       )}
                     </div>
                   )}
-                  
-                  {currentScreen === 'menu' && (
+
+                  {currentScreen === "menu" && (
                     <>
                       <div className="header amber-text">
                         <div className="logo-container">
@@ -151,32 +176,39 @@ const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
                           <div className="dim-text">CREW: 12 ACTIVE</div>
                         </div>
                       </div>
-                      
+
                       <div className="main-content">
                         <div className="menu-container amber-text">
-                          <div className="menu-title">// MAIN TERMINAL ACCESS</div>
+                          <div className="menu-title">
+                            // MAIN TERMINAL ACCESS
+                          </div>
                           {menuOptions.map((option, index) => (
                             <div
                               key={option.id}
-                              className={`menu-option ${selectedOption === index ? 'selected' : ''}`}
+                              className={`menu-option ${selectedOption === index ? "selected" : ""}`}
                               onClick={() => handleOptionClick(index)}
                               onMouseEnter={() => handleOptionHover(index)}
                             >
                               {option.label}
                               {selectedOption === index && showCursor && (
-                                <span className="cursor" style={{ marginLeft: 'auto' }} />
+                                <span
+                                  className="cursor"
+                                  style={{ marginLeft: "auto" }}
+                                />
                               )}
                             </div>
                           ))}
                         </div>
-                        
+
                         <div className="silhouette-container">
-                          <svg 
-                            className="human-silhouette" 
+                          <svg
+                            className="human-silhouette"
                             viewBox="0 0 206.326 206.326"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <path fill="#ff6a00" d="M104.265,117.959c-0.304,3.58,2.126,22.529,3.38,29.959c0.597,3.52,2.234,9.255,1.645,12.3
+                            <path
+                              fill="#00ffff"
+                              d="M104.265,117.959c-0.304,3.58,2.126,22.529,3.38,29.959c0.597,3.52,2.234,9.255,1.645,12.3
                               c-0.841,4.244-1.084,9.736-0.621,12.934c0.292,1.942,1.211,10.899-0.104,14.175c-0.688,1.718-1.949,10.522-1.949,10.522
                               c-3.285,8.294-1.431,7.886-1.431,7.886c1.017,1.248,2.759,0.098,2.759,0.098c1.327,0.846,2.246-0.201,2.246-0.201
                               c1.139,0.943,2.467-0.116,2.467-0.116c1.431,0.743,2.758-0.627,2.758-0.627c0.822,0.414,1.023-0.109,1.023-0.109
@@ -206,19 +238,104 @@ const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
                               c0,0-3.836,7.892-1.379,8.05c0,0,0.192,0.523,1.023,0.109c0,0,1.327,1.37,2.761,0.627c0,0,1.328,1.06,2.463,0.116
                               c0,0,0.91,1.047,2.237,0.201c0,0,1.742,1.175,2.777-0.098c0,0,1.839,0.408-1.435-7.886c0,0-1.254-8.793-1.945-10.522
                               c-1.318-3.275-0.387-12.251-0.106-14.175c0.453-3.216,0.21-8.695-0.618-12.934c-0.606-3.038,1.035-8.774,1.641-12.3
-                              c1.245-7.423,3.685-26.373,3.38-29.959l1.008,0.354C103.809,118.312,104.265,117.959,104.265,117.959z"/>
+                              c1.245-7.423,3.685-26.373,3.38-29.959l1.008,0.354C103.809,118.312,104.265,117.959,104.265,117.959z"
+                            />
                           </svg>
-                          <div className="silhouette-label amber-text">CREW MEMBER</div>
-                          <div className="silhouette-id amber-text dim-text">ID: 7G-0042</div>
+                          <div className="silhouette-label amber-text">
+                            CREW MEMBER
+                          </div>
+                          <div className="silhouette-id amber-text dim-text">
+                            ID: 7G-0042
+                          </div>
                         </div>
                       </div>
-                      
+
                       <div className="status-bar amber-text dim-text">
                         <span>↑↓ NAVIGATE</span>
                         <span className="blink">● CONNECTED</span>
                         <span>ENTER TO SELECT</span>
                       </div>
                     </>
+                  )}
+
+                  {currentScreen === "files" && (
+                    <div
+                      className="file-selector-container"
+                      onWheel={(e) => {
+                        const now = Date.now();
+                        if (now - lastScrollTime.current > 500) {
+                          // Throttle 500ms
+                          setGlitchActive(true); // Small glitch on switch
+                          setTimeout(() => setGlitchActive(false), 50);
+
+                          if (e.deltaY > 0) {
+                            setSelectedFileIndex((prev) =>
+                              prev < files.length - 1 ? prev + 1 : 0,
+                            );
+                          } else {
+                            setSelectedFileIndex((prev) =>
+                              prev > 0 ? prev - 1 : files.length - 1,
+                            );
+                          }
+                          lastScrollTime.current = now;
+                        }
+                      }}
+                    >
+                      <div className="side-indicator">
+                        {[...Array(15)].map((_, i) => (
+                          <div key={i} className="indicator-bar"></div>
+                        ))}
+                      </div>
+
+                      <div className="file-bunch">
+                        {/* Wrapper for animated cards only */}
+                        <div
+                          className={`file-cards-wrapper ${true ? "" : ""}`}
+                          key={selectedFileIndex}
+                        >
+                          <div className="file-card amber-text">
+                            <div
+                              className="file-card-tab"
+                              style={{
+                                left: `${20 + selectedFileIndex * 50}px`,
+                              }}
+                            >
+                              {files[selectedFileIndex][0]}
+                            </div>
+                            <div className="file-card-footer"></div>
+                            <div className="file-card-body">
+                              <div className="file-name">
+                                {files[selectedFileIndex]}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div
+                            className="file-card amber-text"
+                            style={{
+                              visibility:
+                                selectedFileIndex > 0 ? "visible" : "hidden",
+                            }}
+                          >
+                            <div
+                              className="fle-card-tab-b"
+                              style={{
+                                left: `${20 + (selectedFileIndex - 1) * 50}px`,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+
+                        <div className="hook left"></div>
+                        <div className="hook right"></div>
+                      </div>
+
+                      <div className="side-indicator">
+                        {[...Array(15)].map((_, i) => (
+                          <div key={i} className="indicator-bar"></div>
+                        ))}
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
