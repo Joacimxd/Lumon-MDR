@@ -793,3 +793,151 @@
   height: 3px;
   background: rgba(0, 255, 255, 0.8);
 }
+
+
+/* MDR INTERFACE STYLES */
+.mdr-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.mdr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid #00ffff;
+  border-bottom: 2px solid #00ffff;
+  padding: 5px 20px;
+  margin-bottom: 20px;
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.mdr-file-name {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.mdr-progress {
+  font-size: 20px;
+}
+
+.mdr-logo {
+    border: 1px solid #00ffff;
+    border-radius: 50%;
+    width: 60px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.mdr-grid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px; /* Spacing between rows */
+  margin-bottom: 20px;
+}
+
+.mdr-row {
+  display: flex;
+  gap: 15px; /* Spacing between columns */
+}
+
+.mdr-cell {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  animation: wobble 4s ease-in-out infinite;
+  animation-delay: calc(var(--delay) * 1ms);
+}
+
+.mdr-cell:hover {
+  transform: scale(1.5);
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+  font-weight: bold;
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-3px, -3px);
+  }
+}
+
+
+.mdr-bins {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid rgba(0, 255, 255, 0.3);
+  padding-top: 15px;
+}
+
+.mdr-bin {
+  flex: 1;
+  border: 1px solid #00ffff;
+  padding: 5px;
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.bin-label {
+  text-align: center;
+  background: rgba(0, 255, 255, 0.2);
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.bin-bar-container {
+  height: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.bin-bar {
+  height: 100%;
+  background: rgba(0, 255, 255, 0.4);
+}
+
+.bin-percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  color: #00ffff;
+}
+
+/* Retro Cursor with white outline for visibility */
+.retro-cursor-area {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M2 2 L2 18 L6 14 L10 22 L14 20 L10 12 L17 12 Z' fill='%2300ffff' stroke='rgba(0,0,0,0.5)' stroke-width='1'/%3E%3C/svg%3E"), auto;
+}
+
+/* Ensure child elements inherit cursor */
+.retro-cursor-area * {
+  cursor: inherit !important;
+}
+
+.mdr-cell {
+  /* Override the pointer cursor from previous styles */
+  cursor: inherit !important; 
+}
+
+
+
+
