@@ -1,0 +1,27 @@
+
+export default function Logo(){
+return (<svg className="mdr-logo" width="1459" height="756" viewBox="0 0 1459 756" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M868.268 402.043V321.543C868.268 297.943 936.768 294.21 970.768 298.043C1030.27 301.043 1035.27 319.043 1035.27 333.543V369.043C1035.27 410.543 1031.27 417.543 1020.77 418.043H919.268C868.268 418.043 867.101 409.043 868.268 402.043Z" stroke="currentColor" stroke-width="30"/>
+<path d="M634.03 428.742V302.242H643.03" stroke="currentColor" stroke-width="30"/>
+<path d="M631.53 297.742L722.03 408.242L809.53 294.742" stroke="currentColor" stroke-width="30"/>
+<path d="M813.53 430.742V285.742" stroke="currentColor" stroke-width="30"/>
+<path d="M1076.03 425.242V298.742" stroke="currentColor" stroke-width="30"/>
+<path d="M1082.53 311.242L1223.53 418.242" stroke="currentColor" stroke-width="30"/>
+<path d="M1229.53 305.242V430.242" stroke="currentColor" stroke-width="30"/>
+<path d="M15.03 381.242C34.5299 99.7422 512.863 10.5756 724.03 15.2423C1304.03 46.0422 1445.36 272.076 1443.53 381.242C1397.13 662.442 944.53 737.742 724.03 740.242C172.43 723.442 21.53 493.909 15.03 381.242Z" stroke="currentColor" stroke-width="30"/>
+<path d="M655.03 14.7422C560.504 32.4952 353.767 102.149 283.03 238.742" stroke="currentColor" stroke-width="30"/>
+<path d="M723.03 14.7422C668.739 34.3387 553.531 107.374 527.03 242.742" stroke="currentColor" stroke-width="30"/>
+<path d="M792.53 19.2422C844.53 49.7422 951.43 136.042 963.03 237.242" stroke="currentColor" stroke-width="30"/>
+<path d="M905.03 34.7422C995.363 72.7422 1179.53 166.742 1193.53 238.742" stroke="currentColor" stroke-width="30"/>
+<path d="M1267.53 147.242H178.53" stroke="currentColor" stroke-width="30"/>
+<path d="M857.53 733.242C947.863 716.242 1144.93 624.542 1212.53 493.742" stroke="currentColor" stroke-width="30"/>
+<path d="M793.03 733.742C842.335 712.513 946.962 633.392 971.03 486.742" stroke="currentColor" stroke-width="30"/>
+<path d="M690.53 736.742C636.853 701.066 528.004 604.118 516.03 485.742" stroke="currentColor" stroke-width="30"/>
+<path d="M601.03 732.242C432.03 695.242 277.53 559.242 263.53 487.242" stroke="currentColor" stroke-width="30"/>
+<path d="M158.03 593.706L1294.03 595.742" stroke="currentColor" stroke-width="30"/>
+<path d="M233.03 286.742V416.742H381.03" stroke="currentColor" stroke-width="30"/>
+<path d="M418.03 287.242V395.242C415.197 405.742 419.33 425.742 458.53 421.742H555.03C565.03 422.409 584.33 414.942 581.53 379.742V287.242" stroke="currentColor" stroke-width="30"/>
+<path d="M946.098 415.558C893.77 415.558 902.209 357.552 918.416 334.587C956.389 280.78 944.373 287.589 979.259 334.587C1014.14 393.818 975.17 418.133 946.098 415.558Z" stroke="currentColor" stroke-width="30"/>
+<path d="M975.53 310.242L1023.03 409.742L1008.53 310.242L1000.03 409.742L959.53 417.742H919.03L888.03 406.742V318.742L922.03 309.742L930.03 313.242L902.53 350.242L906.53 417.742V420.742" stroke="currentColor" stroke-width="30"/>
+</svg>
+);}

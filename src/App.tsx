@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import CRTTerminal from './components/CRTTerminal'
-import LCDGadget from './components/LCDGadget'
 import './App.css'
 
 interface GadgetInfo {
@@ -18,12 +17,7 @@ const gadgets: GadgetInfo[] = [
     path: '/',
     description: 'Amber phosphor CRT display terminal'
   },
-  {
-    id: 'lcd',
-    name: 'OPTICAL UNIT',
-    path: '/lcd',
-    description: 'LCD surveillance device with camera'
-  }
+
 ];
 
 function GadgetGallery() {
@@ -80,7 +74,6 @@ function GadgetGallery() {
       }}>
         <Routes>
           <Route path="/" element={<CRTTerminal scale={scale} />} />
-          <Route path="/lcd" element={<LCDGadget scale={scale} />} />
         </Routes>
       </div>
     </div>
