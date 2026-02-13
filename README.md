@@ -1,5 +1,5 @@
 # Severance MDR Software
- 
+
 The retro futuristic Macro Data Refinement software form Severance show, with emotion refinement as songs.
 
 ## Features
