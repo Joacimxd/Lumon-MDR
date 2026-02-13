@@ -8,18 +8,23 @@ The retro futuristic Macro Data Refinement software form Severance show, with em
 
 A terminal-like instructions screen for the Macro Data Refinement software.
 
+![Instructions Screen](images/BASH.png)
+
 ### File Explorer
 
 A file explorer just as in the show.
 
-## MDR Software
+![File Explorer](images/FileExplorer.png)
+
+## MDR Numbers
 
 Micro data refinement ecosystem with numbers and refinement through happy, love, and sad songs.
+
+![MDR Numbers](images/MDR.png)
 
 ## References
 
 This UI is based on the Macro Data Refinement software from the TV show Severance and the repository: https://github.com/Imetomi/retro-futuristic-ui-design.git.
-
 
 ## Installation
 
@@ -48,5 +53,3 @@ Screen 2: `Shift` + `2`
 Screen 3: `Shift` + `3`
 Screen 4: `Shift` + `4`
 Screen 5: `Shift` + `5`
-
-
